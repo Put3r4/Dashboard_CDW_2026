@@ -137,42 +137,121 @@ def apply_custom_css():
         box-shadow: 0 4px 18px rgba(29, 53, 87, 0.12);
     }}
 
-    /* Kartu KPI */
+    /* Penyetaraan Tinggi Kolom Grid Streamlit untuk Kartu KPI */
+    [data-testid="stHorizontalBlock"] {{
+        align-items: stretch !important;
+    }}
+    [data-testid="column"], [data-testid="stColumn"] {{
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+    }}
+    [data-testid="column"] > div, [data-testid="stColumn"] > div {{
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        height: 100% !important;
+    }}
+    [data-testid="column"] [data-testid="stMarkdownContainer"],
+    [data-testid="stColumn"] [data-testid="stMarkdownContainer"] {{
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }}
+    [data-testid="column"] .stMarkdown,
+    [data-testid="stColumn"] .stMarkdown {{
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+    }}
+
+    /* Kartu KPI Normalisasi Berpusat */
     .kpi-container {{
         background: {COLOR_CARD};
         border-radius: 14px;
         box-shadow: 0 2px 12px rgba(29, 53, 87, 0.08);
-        border: 1px solid rgba(168, 218, 220, 0.4);
-        padding: 18px 20px;
+        border: 1px solid rgba(168, 218, 220, 0.45);
+        padding: 22px 16px 20px 16px;
         margin-bottom: 16px;
         height: 100%;
+        min-height: 220px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        box-sizing: border-box;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }}
+    .kpi-container:hover {{
+        box-shadow: 0 4px 18px rgba(29, 53, 87, 0.12);
+        transform: translateY(-2px);
+    }}
+    .kpi-top {{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
     }}
     .kpi-label {{
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 11.5px;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.6px;
         color: {COLOR_PRIMARY};
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
         margin-bottom: 6px;
+        width: 100%;
     }}
     .kpi-value {{
-        font-size: 30px;
-        font-weight: 700;
+        font-size: 32px;
+        font-weight: 800;
         color: {COLOR_TEXT};
         line-height: 1.15;
-        margin-bottom: 4px;
+        text-align: center;
+        margin: 2px 0 6px 0;
+        width: 100%;
     }}
-    .kpi-subtext {{
-        font-size: 13px;
-        color: #64748b;
-        line-height: 1.3;
+    .kpi-bottom {{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        text-align: center;
+        margin-top: 6px;
     }}
     .kpi-diff-highlight {{
         color: {COLOR_ACCENT};
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 13px;
+        text-align: center;
+        line-height: 1.35;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2px;
+        width: 100%;
+    }}
+    .kpi-subtext {{
+        font-size: 12px;
+        color: #64748b;
+        line-height: 1.35;
+        text-align: center;
+        min-height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
     }}
 
     /* Hero Metric Card */
@@ -502,16 +581,16 @@ def render_section_title(title: str):
 
 
 def render_kpi_card(label: str, value: str, subtext: Optional[str] = None, highlight_diff: Optional[str] = None):
-    """Merender kartu KPI bergaya SaaS dengan angka besar dan keterangan perbandingan."""
+    """Merender kartu KPI bergaya SaaS dengan rasio seragam dan perataan tengah presisi."""
     diff_html = f'<div class="kpi-diff-highlight">{highlight_diff}</div>' if highlight_diff else ""
     sub_html = f'<div class="kpi-subtext">{subtext}</div>' if subtext else ""
     html = f"""
     <div class="kpi-container">
-        <div>
+        <div class="kpi-top">
             <div class="kpi-label">{label}</div>
             <div class="kpi-value">{value}</div>
         </div>
-        <div>
+        <div class="kpi-bottom">
             {diff_html}
             {sub_html}
         </div>
